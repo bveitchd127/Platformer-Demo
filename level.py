@@ -1,7 +1,8 @@
 import pygame, settings, tile
 
 class Level:
-    def __init__(self, fileName):
+    def __init__(self, director, fileName):
+        self.director = director
         self.tiles = pygame.sprite.Group()
         self.loadLevel(fileName)
 
@@ -18,4 +19,5 @@ class Level:
                     
     def draw(self, surface):
         surface.fill(settings.backgroundColor)
-        self.tiles.draw(surface)
+        for t in self.tiles:
+            surface.blit(t.image, t.rect.topleft + self.director.offset)

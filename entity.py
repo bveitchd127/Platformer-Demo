@@ -75,12 +75,11 @@ class Entity(pygame.sprite.Sprite):
 
     
     def update(self, dt, tiles):
-        #self.resetCollisions()
         self.horizontalMovement(dt, tiles)
         self.verticalMovement(dt, tiles)
     
     def draw(self, surface):
-        pygame.draw.rect(surface, "red", self.rect, 1)
-        surface.blit(self.image, self.rect)
+        #pygame.draw.rect(surface, "red", self.rect, 1)
+        surface.blit(self.image, self.rect.topleft + self.director.offset)
 
         
