@@ -1,4 +1,4 @@
-import pygame, sys, settings, level, player, entity
+import pygame, sys, settings, level, player, entity, enemy, random
 
 class Director:
     def __init__(self):
@@ -7,6 +7,7 @@ class Director:
         """
         self.level = level.Level("level1.txt")
         self.player = player.Player(self, 100,100)
+        self.enemies = pygame.sprite.Group()
     
     def checkEvents(self):
         for e in pygame.event.get():
@@ -22,6 +23,11 @@ class Director:
                 if e.key == pygame.K_LEFT:
                     self.player.velocity.x = -1000
                     self.player.velocity.y = -300
+                if e.key == pygame.K_e:
+                    x = random.randint(64+8, settings.screenWidth-48-64-8)
+                    y = random.randint(64+8, settings.screenHeight-48-64-8)
+                    self.enemies.add( enemy.Enemy(self,x,y) )
+
 
     
     def update(self, dt):
