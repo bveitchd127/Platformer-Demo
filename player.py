@@ -1,17 +1,19 @@
 import pygame, settings, entity, animation
 
 class Player(entity.Entity):
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, director, x, y):
+        super().__init__(director, x, y)
+
         self.animStatus = "idle"
         self.animDict = {
             "idle": animation.Animation("assets/gfx/idle.png", 12, (0,8)),
             "run" : animation.Animation("assets/gfx/run.png" , 12, (0,8)),
-            "jump": animation.Animation("assets/gfx/jump.png", 12, (0,8)),
+            "jump": animation.Animation("assets/gfx/jump.png",  4, (0,8)),
         }
         self.movementSpeed = 400
         self.jumpCount = 2
-        self.facingLeft = False
+        # player width is about 14, 29
+        #self.rect = pygame.Rect(x, y, 14, 29)
     
     def jump(self):
         if self.jumpCount > 0:
@@ -21,21 +23,15 @@ class Player(entity.Entity):
     def getInput(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.velocity.x = -self.movementSpeed
+            self.direction.x = -1
         elif keys[pygame.K_d]:
-            self.velocity.x = self.movementSpeed
+            self.direction.x = 1
         else:
-            self.velocity.x = 0
-    
-    def updateDirection(self):
-        if self.velocity.x < 0:
-            self.facingLeft = True
-        elif self.velocity.x > 0:
-            self.facingLeft = False
+            self.direction.x = 0
     
     def updateAnimStatus(self):
         if self.collisions["bottom"]:
-            if self.velocity.x != 0:
+            if self.direction.x != 0:
                 self.animStatus = "run"
             else:
                 self.animStatus = "idle"
@@ -52,9 +48,14 @@ class Player(entity.Entity):
 
         self.animDict[self.animStatus].update(dt)
 
+
     def update(self, dt, tiles):
         self.getInput()
         if self.collisions["bottom"] and self.velocity.y > 0:
             self.jumpCount = 2
+        
         self.updateAnimation(dt)
+
         super().update(dt, tiles)
+    
+    

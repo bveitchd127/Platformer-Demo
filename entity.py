@@ -4,13 +4,17 @@ entityGravity = 1500
 entities = pygame.sprite.Group()
 
 class Entity(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, director, x, y):
         super().__init__()
+        self.director = director
         entities.add(self)
         self.image = pygame.Surface( (3*settings.tileSize//4, 3*settings.tileSize//4) )
         self.rect = self.image.get_rect(topleft = (x, y))
 
         self.velocity = pygame.math.Vector2()
+        self.direction = pygame.math.Vector2()
+        self.movementSpeed = 100
+        self.facingLeft = False
         self.resetCollisions()
     
     def resetCollisions(self):
@@ -21,10 +25,18 @@ class Entity(pygame.sprite.Sprite):
             "left": False
         }
     
+    def updateDirection(self):
+        if self.direction.x < 0:
+            self.facingLeft = True
+        elif self.direction.x > 0:
+            self.facingLeft = False
+
     def verticalMovement(self, dt, tiles):
         self.velocity.y += entityGravity * dt
         self.rect.y += self.velocity.y * dt
 
+        self.collisions["top"] = False
+        self.collisions["bottom"] = False
         for tile in tiles:
             if tile.rect.colliderect(self.rect):
                 if self.velocity.y > 0:
@@ -37,19 +49,33 @@ class Entity(pygame.sprite.Sprite):
                     self.velocity.y = 0
     
     def horizontalMovement(self, dt, tiles):
-        self.rect.x += self.velocity.x * dt
+        xMovement = self.direction.x * self.movementSpeed
+        totalXMovement = self.velocity.x + xMovement
+        
+        if (self.collisions["bottom"]):
+            if self.velocity.x > 50:
+                self.velocity.x -= 3000*dt
+            elif self.velocity.x < -50:
+                self.velocity.x += 3000*dt
+            else:
+                self.velocity.x = 0
+
+        self.rect.x += totalXMovement * dt
+
+        self.collisions["right"] = False
+        self.collisions["left"] = False
         for tile in tiles:
             if tile.rect.colliderect( self.rect ):
-                if self.velocity.x > 0:
+                if totalXMovement > 0:
                     self.collisions["right"] = True
                     self.rect.right = tile.rect.left
-                elif self.velocity.x < 0:
+                elif totalXMovement < 0:
                     self.collisions["left"] = True
                     self.rect.left = tile.rect.right
 
     
     def update(self, dt, tiles):
-        self.resetCollisions()
+        #self.resetCollisions()
         self.horizontalMovement(dt, tiles)
         self.verticalMovement(dt, tiles)
     
