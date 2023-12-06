@@ -1,13 +1,17 @@
-import pygame, settings, entity
+import pygame, settings, entity, animation
 
 class Player(entity.Entity):
     def __init__(self, x, y):
         super().__init__(x, y)
-        #self.image.fill(settings.playerColor)
-        self.texture = pygame.image.load("assets/gfx/idle.png")
-        self.image.blit(self.texture, (0,0))
+        self.animStatus = "idle"
+        self.animDict = {
+            "idle": animation.Animation("assets/gfx/idle.png", 12, (0,8)),
+            "run" : animation.Animation("assets/gfx/run.png" , 12, (0,8)),
+            "jump": animation.Animation("assets/gfx/jump.png", 12, (0,8)),
+        }
         self.movementSpeed = 400
         self.jumpCount = 2
+        self.facingLeft = False
     
     def jump(self):
         if self.jumpCount > 0:
@@ -23,9 +27,34 @@ class Player(entity.Entity):
         else:
             self.velocity.x = 0
     
+    def updateDirection(self):
+        if self.velocity.x < 0:
+            self.facingLeft = True
+        elif self.velocity.x > 0:
+            self.facingLeft = False
+    
+    def updateAnimStatus(self):
+        if self.collisions["bottom"]:
+            if self.velocity.x != 0:
+                self.animStatus = "run"
+            else:
+                self.animStatus = "idle"
+        else:
+            self.animStatus = "jump"
+
+    def updateAnimation(self, dt):
+        self.updateDirection()
+        self.updateAnimStatus()
+        
+        self.image = self.animDict[self.animStatus].getFrame()
+        if self.facingLeft:
+            self.image = pygame.transform.flip(self.image, True, False)
+
+        self.animDict[self.animStatus].update(dt)
+
     def update(self, dt, tiles):
         self.getInput()
         if self.collisions["bottom"] and self.velocity.y > 0:
             self.jumpCount = 2
+        self.updateAnimation(dt)
         super().update(dt, tiles)
-    

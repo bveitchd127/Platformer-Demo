@@ -24,4 +24,5 @@ class Director:
     
     def draw(self, surface):
         self.level.draw(surface)
-        entity.entities.draw(surface)
+        for e in entity.entities:
+            e.draw(surface)
