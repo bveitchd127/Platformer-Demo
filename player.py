@@ -9,6 +9,8 @@ class Player(entity.Entity):
             "idle": animation.Animation("assets/gfx/idle.png", 12, (0,8)),
             "run" : animation.Animation("assets/gfx/run.png" , 12, (0,8)),
             "jump": animation.Animation("assets/gfx/jump.png",  4, (0,8)),
+            "hover": animation.Animation("assets/gfx/hover.png",  4, (0,8)),
+            "fall": animation.Animation("assets/gfx/fall.png",  4, (0,8)),
         }
         self.movementSpeed = 400
         self.jumpCount = 2
@@ -36,7 +38,12 @@ class Player(entity.Entity):
             else:
                 self.animStatus = "idle"
         else:
-            self.animStatus = "jump"
+            if self.velocity.y > 100:
+                self.animStatus = "fall"
+            elif self.velocity.y < 0:
+                self.animStatus = "jump"
+            else:
+                self.animStatus = "hover"
 
     def updateAnimation(self, dt):
         self.updateDirection()
