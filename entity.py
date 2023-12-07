@@ -79,7 +79,8 @@ class Entity(pygame.sprite.Sprite):
         self.verticalMovement(dt, tiles)
     
     def draw(self, surface):
-        #pygame.draw.rect(surface, "red", self.rect, 1)
+        if settings.hitboxToggle:
+            pygame.draw.rect(surface, "red", pygame.Rect(self.rect.topleft + self.director.offset,(self.rect.size)), 1)
         surface.blit(self.image, self.rect.topleft + self.director.offset)
 
         
