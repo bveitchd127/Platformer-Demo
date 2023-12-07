@@ -5,7 +5,7 @@ class Director:
         """
         Director is responsible for all game mechanics
         """
-        self.level = level.Level(self, "level1.txt")
+        self.level = level.Level(self, "level2.txt")
         self.player = player.Player(self, 100,100)
         self.enemies = pygame.sprite.Group()
         self.offset = pygame.math.Vector2(self.player.rect.center)
@@ -32,10 +32,18 @@ class Director:
                     self.enemies.add( enemy.Enemy(self,x,y) )
 
     def updateOffset(self, dt):
-        self.offset += ((640,360) - self.offset - self.player.rect.center)*dt
+        self.offset += settings.cameraFollowSpeed*((640,360) - self.offset - self.player.rect.center)*dt
+        self.offset.y = pygame.math.clamp(self.offset.y, -48, 2000)
+        self.offset.x = pygame.math.clamp(self.offset.x, -8928, -48)
+
+    def checkPlayerFall(self):
+        if self.player.rect.y > 5000:
+            print("Respawning player")
+            self.player.rect.center = (100,100)
 
     def update(self, dt):
         self.checkEvents()
+        self.checkPlayerFall()
         self.updateOffset(dt)
         entity.entities.update(dt, self.level.tiles)
     

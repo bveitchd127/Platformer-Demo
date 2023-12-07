@@ -8,7 +8,7 @@ class Entity(pygame.sprite.Sprite):
         super().__init__()
         self.director = director
         entities.add(self)
-        self.image = pygame.Surface( (3*settings.tileSize//4, 3*settings.tileSize//4) )
+        self.image = pygame.Surface( (48, 48) )
         self.rect = self.image.get_rect(topleft = (x, y))
 
         self.velocity = pygame.math.Vector2()
