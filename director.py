@@ -5,10 +5,11 @@ class Director:
         """
         Director is responsible for all game mechanics
         """
-        self.level = level.Level(self, "level1.txt")
         self.player = player.Player(self, 100,100)
         self.enemies = pygame.sprite.Group()
-        self.offset = pygame.math.Vector2(self.player.rect.center)
+        self.level = level.Level(self, "level1.txt")
+        print(self.player.rect.center)
+        self.offset = (settings.screenWidth//2, settings.screenHeight//2) - pygame.math.Vector2(self.player.rect.center)
     
     def checkEvents(self):
         for e in pygame.event.get():
@@ -32,7 +33,7 @@ class Director:
                     self.enemies.add( enemy.Enemy(self,x,y) )
 
     def updateOffset(self, dt):
-        self.offset += ((640,360) - self.offset - self.player.rect.center)*dt
+        self.offset += ((settings.screenWidth//2, settings.screenHeight//2) - self.offset - self.player.rect.center)*dt
 
     def update(self, dt):
         self.checkEvents()

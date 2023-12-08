@@ -16,6 +16,8 @@ class Level:
                     # If the character is an X, then place a tile at that position
                     if col == "X":
                         self.tiles.add( tile.Tile(x*settings.tileSize, y*settings.tileSize) )
+                    if col == "P":
+                        self.director.player.rect.topleft = (x*settings.tileSize, y*settings.tileSize)
                     
     def draw(self, surface):
         surface.fill(settings.backgroundColor)
