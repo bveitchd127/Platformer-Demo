@@ -11,6 +11,10 @@ class Director:
         print(self.player.rect.center)
         self.offset = (settings.screenWidth//2, settings.screenHeight//2) - pygame.math.Vector2(self.player.rect.center)
     
+    def spawnEnemy(self, x, y):
+        self.enemies.add( enemy.Enemy(self,x,y) )
+
+
     def checkEvents(self):
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -30,7 +34,7 @@ class Director:
                 if e.key == pygame.K_e:
                     x = random.randint(64+8, settings.screenWidth-48-64-8)
                     y = random.randint(64+8, settings.screenHeight-48-64-8)
-                    self.enemies.add( enemy.Enemy(self,x,y) )
+                    self.spawnEnemy(x, y)
 
     def updateOffset(self, dt):
         self.offset += ((settings.screenWidth//2, settings.screenHeight//2) - self.offset - self.player.rect.center)*dt

@@ -18,6 +18,8 @@ class Level:
                         self.tiles.add( tile.Tile(x*settings.tileSize, y*settings.tileSize) )
                     if col == "P":
                         self.director.player.rect.topleft = (x*settings.tileSize, y*settings.tileSize)
+                    if col == "E":
+                        self.director.spawnEnemy(x*settings.tileSize, y*settings.tileSize)
                     
     def draw(self, surface):
         surface.fill(settings.backgroundColor)

@@ -5,9 +5,9 @@ X       XXXX       X
 X                  X
 X                  X
 X                  X
-X                  X
+X  E               X
 XXXXX              X
 X                  X
-X                  X
+X  E      E     E  X
 XXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXX
