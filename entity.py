@@ -33,6 +33,7 @@ class Entity(pygame.sprite.Sprite):
 
     def verticalMovement(self, dt, tiles):
         self.velocity.y += entityGravity * dt
+        self.velocity.y = pygame.math.clamp(self.velocity.y, -4000, 4000)
         self.rect.y += self.velocity.y * dt
 
         self.collisions["top"] = False
@@ -50,6 +51,7 @@ class Entity(pygame.sprite.Sprite):
     
     def horizontalMovement(self, dt, tiles):
         xMovement = self.direction.x * self.movementSpeed
+        self.velocity.x = pygame.math.clamp(self.velocity.x, -4000, 4000)
         totalXMovement = self.velocity.x + xMovement
         
         if (self.collisions["bottom"]):
