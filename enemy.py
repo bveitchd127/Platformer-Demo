@@ -38,6 +38,11 @@ class Enemy(entity.Entity):
             # eToP.normalize() would achieve the same thing
             eToP.scale_to_length(1)
             self.direction = eToP
+        elif eToP.magnitude() <= 50:
+            eToP.scale_to_length(1000)
+            self.director.player.velocity += eToP
+            self.director.player.velocity.y += 300
+            self.kill()
         else:
             self.direction = pygame.math.Vector2()
 
