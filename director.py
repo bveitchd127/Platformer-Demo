@@ -37,7 +37,7 @@ class Director:
                     self.spawnEnemy(x, y)
 
     def updateOffset(self, dt):
-        self.offset += ((settings.screenWidth//2, settings.screenHeight//2) - self.offset - self.player.rect.center)*dt
+        self.offset += settings.cameraSpeed * ((settings.screenWidth//2, settings.screenHeight//2) - self.offset - self.player.rect.center) * dt
 
     def update(self, dt):
         self.checkEvents()

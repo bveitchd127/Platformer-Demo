@@ -36,7 +36,7 @@ class Player(entity.Entity):
             else:
                 self.animStatus = "idle"
         else:
-            if self.velocity.y > 100:
+            if self.velocity.y > 300:
                 self.animStatus = "fall"
             elif self.velocity.y < 0:
                 self.animStatus = "jump"

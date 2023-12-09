@@ -7,6 +7,7 @@ enemyColor      = pygame.Color("#8f3641")
 
 screenSize = screenWidth, screenHeight = 1280,720
 frameRate = 60
+cameraSpeed = 3
 hitboxToggle = False
 
 tileSize = screenWidth / 20
