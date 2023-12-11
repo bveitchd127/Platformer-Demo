@@ -8,12 +8,10 @@ class Director:
         self.player = player.Player(self, 100,100)
         self.enemies = pygame.sprite.Group()
         self.level = level.Level(self, "level1.txt")
-        print(self.player.rect.center)
         self.offset = (settings.screenWidth//2, settings.screenHeight//2) - pygame.math.Vector2(self.player.rect.center)
-    
+        
     def spawnEnemy(self, x, y):
         self.enemies.add( enemy.Enemy(self,x,y) )
-
 
     def checkEvents(self):
         for e in pygame.event.get():
@@ -23,8 +21,6 @@ class Director:
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_SPACE:
                     self.player.jump()
-                if e.key == pygame.K_h:
-                    settings.hitboxToggle = not settings.hitboxToggle
                 if e.key == pygame.K_RIGHT:
                     self.player.velocity.x = 1000
                     self.player.velocity.y = -300
@@ -32,19 +28,39 @@ class Director:
                     self.player.velocity.x = -1000
                     self.player.velocity.y = -300
                 if e.key == pygame.K_e:
-                    x = random.randint(64+8, settings.screenWidth-48-64-8)
-                    y = random.randint(64+8, settings.screenHeight-48-64-8)
-                    self.spawnEnemy(x, y)
+                    x = random.randint(70,1150)
+                    y = random.randint(70,650)
+                    self.spawnEnemy(x,y)
+                
+                if e.key == pygame.K_1:
+                    self.enemies.empty()
+                    self.level = level.Level(self, "level1.txt")
+                    
+                if e.key == pygame.K_2:
+                    self.enemies.empty()
+                    self.level = level.Level(self, "level2.txt")
+                    
 
     def updateOffset(self, dt):
-        self.offset += settings.cameraSpeed * ((settings.screenWidth//2, settings.screenHeight//2) - self.offset - self.player.rect.center) * dt
+        self.offset += settings.cameraSpeed*((640,360) - self.offset - self.player.rect.center)*dt
+        self.offset.y = pygame.math.clamp(self.offset.y, -128, 4000)
+    
+    def checkForFallenPlayer(self):
+        if self.player.rect.y > 4000:
+            self.player.rect.topleft = (400,100)
+            self.player.velocity = pygame.math.Vector2()
 
     def update(self, dt):
         self.checkEvents()
+        self.checkForFallenPlayer()
         self.updateOffset(dt)
-        entity.entities.update(dt, self.level.tiles)
+        
+        self.player.update(dt, self.level.tiles)
+        self.enemies.update(dt, self.level.tiles)
     
     def draw(self, surface):
         self.level.draw(surface)
-        for e in entity.entities:
+        
+        self.player.draw(surface)
+        for e in self.enemies:
             e.draw(surface)

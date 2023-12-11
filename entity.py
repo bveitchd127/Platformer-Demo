@@ -1,13 +1,13 @@
 import pygame, settings
 
 entityGravity = 1500
-entities = pygame.sprite.Group()
+#entities = pygame.sprite.Group()
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, director, x, y):
         super().__init__()
         self.director = director
-        entities.add(self)
+        #entities.add(self)
         self.image = pygame.Surface( (3*settings.tileSize//4, 3*settings.tileSize//4) )
         self.rect = self.image.get_rect(topleft = (x, y))
 
@@ -33,9 +33,9 @@ class Entity(pygame.sprite.Sprite):
 
     def verticalMovement(self, dt, tiles):
         self.velocity.y += entityGravity * dt
-        self.velocity.y = pygame.math.clamp(self.velocity.y, -4000, 4000)
+        self.velocity.y = pygame.math.clamp(self.velocity.y, -60*settings.tileSize, 60*settings.tileSize)
         self.rect.y += self.velocity.y * dt
-
+        
         self.collisions["top"] = False
         self.collisions["bottom"] = False
         for tile in tiles:
@@ -43,7 +43,7 @@ class Entity(pygame.sprite.Sprite):
                 if self.velocity.y > 0:
                     self.collisions["bottom"] = True
                     self.rect.bottom = tile.rect.top
-                    self.velocity.y = 60
+                    self.velocity.y = 10
                 elif self.velocity.y < 0:
                     self.collisions["top"] = True
                     self.rect.top = tile.rect.bottom
@@ -51,7 +51,7 @@ class Entity(pygame.sprite.Sprite):
     
     def horizontalMovement(self, dt, tiles):
         xMovement = self.direction.x * self.movementSpeed
-        self.velocity.x = pygame.math.clamp(self.velocity.x, -4000, 4000)
+        self.velocity.x = pygame.math.clamp(self.velocity.x, -60*settings.tileSize, 60*settings.tileSize)
         totalXMovement = self.velocity.x + xMovement
         
         if (self.collisions["bottom"]):
@@ -61,6 +61,8 @@ class Entity(pygame.sprite.Sprite):
                 self.velocity.x += 3000*dt
             else:
                 self.velocity.x = 0
+        
+        
 
         self.rect.x += totalXMovement * dt
 
@@ -71,18 +73,21 @@ class Entity(pygame.sprite.Sprite):
                 if totalXMovement > 0:
                     self.collisions["right"] = True
                     self.rect.right = tile.rect.left
+                    self.velocity.x = 0
                 elif totalXMovement < 0:
                     self.collisions["left"] = True
                     self.rect.left = tile.rect.right
+                    self.velocity.x = 0
 
     
     def update(self, dt, tiles):
+        #self.resetCollisions()
+        if self.rect.x > 1280:
+            print(self.velocity.x)
         self.horizontalMovement(dt, tiles)
         self.verticalMovement(dt, tiles)
     
     def draw(self, surface):
-        if settings.hitboxToggle:
-            pygame.draw.rect(surface, "red", pygame.Rect(self.rect.topleft + self.director.offset,(self.rect.size)), 1)
         surface.blit(self.image, self.rect.topleft + self.director.offset)
 
         

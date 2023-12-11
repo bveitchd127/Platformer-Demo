@@ -1,4 +1,4 @@
-import pygame, random, entity, animation
+import pygame, entity, animation, random
 
 class Enemy(entity.Entity):
     def __init__(self, director, x, y):
@@ -9,8 +9,9 @@ class Enemy(entity.Entity):
             "run" : animation.Animation("assets/gfx/run.png" , 12, (0,8)),
             "jump": animation.Animation("assets/gfx/jump.png",  4, (0,8)),
         }
-        self.movementSpeed = 300
-        
+        self.movementSpeed = random.randint(250,300)
+    
+
     def updateAnimStatus(self):
         if self.collisions["bottom"]:
             if self.direction.x != 0:
@@ -29,26 +30,24 @@ class Enemy(entity.Entity):
             self.image = pygame.transform.flip(self.image, True, False)
 
         self.animDict[self.animStatus].update(dt)
-    
+
     def updateMovement(self):
-        playerPos = pygame.math.Vector2(self.director.player.rect.center)
-        myPos = pygame.math.Vector2(self.rect.center)
-        eToP = playerPos - myPos
-        if 50 < eToP.magnitude() < 300:
-            # eToP.normalize() would achieve the same thing
-            eToP.scale_to_length(1)
-            self.direction = eToP
-        elif eToP.magnitude() <= 50:
-            eToP.scale_to_length(1000)
-            self.director.player.velocity += eToP
-            self.director.player.velocity.y += 300
+        playerPos  = pygame.math.Vector2(self.director.player.rect.center)
+        myPosition = pygame.math.Vector2(self.rect.center)
+        enemyToPlayer = playerPos - myPosition
+        if 50 < enemyToPlayer.magnitude() < 500:
+            enemyToPlayer.scale_to_length(1)
+            # enemyToPlayer.normalize()
+            self.direction = enemyToPlayer
+        elif enemyToPlayer.magnitude() < 50:
+            print("boom")
+            enemyToPlayer.scale_to_length(1000)
+            self.director.player.velocity += enemyToPlayer
+            self.director.player.velocity.y -= 300
             self.kill()
-        else:
-            self.direction = pygame.math.Vector2()
 
-    def update(self, dt, tiles):
-        self.updateMovement()
-        
+
+    def update(self, dt, tiles):        
         self.updateAnimation(dt)
-
+        self.updateMovement()
         super().update(dt, tiles)
