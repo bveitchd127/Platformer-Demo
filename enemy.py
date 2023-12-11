@@ -9,7 +9,7 @@ class Enemy(entity.Entity):
             "run" : animation.Animation("assets/gfx/run.png" , 12, (0,8)),
             "jump": animation.Animation("assets/gfx/jump.png",  4, (0,8)),
         }
-        self.movementSpeed = random.randint(250,300)
+        self.movementSpeed = random.randint(150,200)
     
 
     def updateAnimStatus(self):
@@ -35,16 +35,19 @@ class Enemy(entity.Entity):
         playerPos  = pygame.math.Vector2(self.director.player.rect.center)
         myPosition = pygame.math.Vector2(self.rect.center)
         enemyToPlayer = playerPos - myPosition
-        if 50 < enemyToPlayer.magnitude() < 500:
+
+        if 0   < enemyToPlayer.magnitude() < 250:
+            enemyToPlayer.scale_to_length(1)
+            self.direction = -enemyToPlayer
+
+        elif 350 < enemyToPlayer.magnitude() < 600:
             enemyToPlayer.scale_to_length(1)
             # enemyToPlayer.normalize()
             self.direction = enemyToPlayer
-        elif enemyToPlayer.magnitude() < 50:
-            print("boom")
-            enemyToPlayer.scale_to_length(1000)
-            self.director.player.velocity += enemyToPlayer
-            self.director.player.velocity.y -= 300
-            self.kill()
+
+        else:
+            self.direction = pygame.math.Vector2(0,0)
+        
 
 
     def update(self, dt, tiles):        
