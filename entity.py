@@ -43,7 +43,7 @@ class Entity(pygame.sprite.Sprite):
                 if self.velocity.y > 0:
                     self.collisions["bottom"] = True
                     self.rect.bottom = tile.rect.top
-                    self.velocity.y = 10
+                    self.velocity.y = 60
                 elif self.velocity.y < 0:
                     self.collisions["top"] = True
                     self.rect.top = tile.rect.bottom

@@ -6,16 +6,14 @@ class Player(entity.Entity):
 
         self.animStatus = "idle"
         self.animDict = {
-            "idle": animation.Animation("assets/gfx/idle.png", 12, (0,8)),
-            "run" : animation.Animation("assets/gfx/run.png" , 12, (0,8)),
-            "jump": animation.Animation("assets/gfx/jump.png",  4, (0,8)),
+            "idle":  animation.Animation("assets/gfx/idle.png", 12, (0,8)),
+            "run" :  animation.Animation("assets/gfx/run.png" , 12, (0,8)),
+            "jump":  animation.Animation("assets/gfx/jump.png",  4, (0,8)),
             "hover": animation.Animation("assets/gfx/hover.png",  4, (0,8)),
-            "fall": animation.Animation("assets/gfx/fall.png",  4, (0,8)),
+            "fall":  animation.Animation("assets/gfx/fall.png",  4, (0,8)),
         }
         self.movementSpeed = 400
         self.jumpCount = 2
-        # player width is about 14, 29
-        #self.rect = pygame.Rect(x, y, 14, 29)
     
     def jump(self):
         if self.jumpCount > 0:
@@ -38,7 +36,7 @@ class Player(entity.Entity):
             else:
                 self.animStatus = "idle"
         else:
-            if self.velocity.y > 100:
+            if self.velocity.y > 300:
                 self.animStatus = "fall"
             elif self.velocity.y < 0:
                 self.animStatus = "jump"
@@ -55,14 +53,10 @@ class Player(entity.Entity):
 
         self.animDict[self.animStatus].update(dt)
 
-
     def update(self, dt, tiles):
         self.getInput()
+        super().update(dt, tiles)
         if self.collisions["bottom"] and self.velocity.y > 0:
             self.jumpCount = 2
         
         self.updateAnimation(dt)
-
-        super().update(dt, tiles)
-    
-    
