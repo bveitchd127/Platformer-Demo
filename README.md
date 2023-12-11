@@ -8,6 +8,7 @@ A simple platformer for Computer Programming in D127
 - [ ] Melee Attacks
 - [ ] Range Attacks
 - [ ] Enemy/Player Health
+- [ ] Adding sounds
 - [ ] Generalize Enemy for multiple Enemy types
 
 ### Series of levels
