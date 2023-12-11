@@ -10,6 +10,10 @@ class Enemy(entity.Entity):
             "jump": animation.Animation("assets/gfx/jump.png",  4, (0,8)),
         }
         self.movementSpeed = random.randint(150,200)
+
+        self.attackSpeed = 2
+        self.attackCooldown = random.random()*2
+        self.projectileSpeed = 500
     
 
     def updateAnimStatus(self):
@@ -39,6 +43,11 @@ class Enemy(entity.Entity):
         if 0   < enemyToPlayer.magnitude() < 250:
             enemyToPlayer.scale_to_length(1)
             self.direction = -enemyToPlayer
+        elif 250 <= enemyToPlayer.magnitude() <= 350 and self.attackCooldown == 0:
+            #attack
+            enemyToPlayer.scale_to_length(self.projectileSpeed)
+            self.director.spawnProjectile(self.rect.center, enemyToPlayer)
+            self.attackCooldown = 2
 
         elif 350 < enemyToPlayer.magnitude() < 600:
             enemyToPlayer.scale_to_length(1)
@@ -47,10 +56,12 @@ class Enemy(entity.Entity):
 
         else:
             self.direction = pygame.math.Vector2(0,0)
-        
 
-
-    def update(self, dt, tiles):        
+    def update(self, dt, tiles):      
+        if self.attackCooldown > 0:
+            self.attackCooldown -= dt  
+        else:
+            self.attackCooldown = 0
         self.updateAnimation(dt)
         self.updateMovement()
         super().update(dt, tiles)

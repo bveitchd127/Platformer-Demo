@@ -20,6 +20,9 @@ class Player(entity.Entity):
             self.jumpCount -= 1
             self.velocity.y = -800
     
+    def damage(self, amountOfDamage):
+        print("OW I took " + str(amountOfDamage) + " damage!")
+    
     def getInput(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
