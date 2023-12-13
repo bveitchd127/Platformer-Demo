@@ -5,12 +5,13 @@ A simple platformer for Computer Programming in D127
 - [x] Larger Map
 - [x] Enemy Attack
 - [x] Camera System
-- [ ] Melee Attacks
-- [ ] Range Attacks
-- [ ] Enemy/Player Health
+- [x] Melee Attacks
+- [x] Range Attacks
+- [x] Enemy/Player Health
 - [ ] Adding sounds
 - [ ] Generalize Enemy for multiple Enemy types
 - [ ] Add portal mechanic for player
+- [ ] Rogue mechanics
 
 ### Series of levels
 - [ ] Plan out levels

@@ -18,6 +18,7 @@ class Enemy(entity.Entity):
     
     def damage(self, amountOfDamage):
         self.health -= amountOfDamage
+        self.healthRect.width = 48 * (self.health/5)
         if self.health <= 0:
             self.kill()
 
@@ -70,3 +71,10 @@ class Enemy(entity.Entity):
         self.updateAnimation(dt)
         self.updateMovement()
         super().update(dt, tiles)
+    
+    def draw(self, surface):
+        self.healthBarRect.midbottom = self.rect.midtop + self.director.offset
+        pygame.draw.rect(surface, "black", self.healthBarRect, 0, 2)
+        self.healthRect.topleft = self.healthBarRect.topleft
+        pygame.draw.rect(surface, "green", self.healthRect   , 0, 2)
+        super().draw(surface)

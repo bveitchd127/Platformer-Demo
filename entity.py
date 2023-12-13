@@ -16,6 +16,9 @@ class Entity(pygame.sprite.Sprite):
         self.movementSpeed = 100
         self.facingLeft = False
         self.resetCollisions()
+
+        self.healthBarRect = pygame.Rect((0,0),(48,8))
+        self.healthRect = pygame.Rect((0,0),(48,8))
     
     def resetCollisions(self):
         self.collisions = {

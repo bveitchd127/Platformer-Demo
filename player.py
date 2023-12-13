@@ -31,6 +31,11 @@ class Player(entity.Entity):
         for e in self.director.enemies:
             if e.rect.colliderect(punchHitbox):
                 e.damage(1)
+                e.velocity.y -= 200
+                if self.facingLeft:
+                    e.velocity.x -= 400
+                else:
+                    e.velocity.x += 400
 
     def heavyAttack(self):
         print("I'm heavy attacking!")
