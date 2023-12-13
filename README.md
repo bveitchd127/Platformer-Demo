@@ -10,6 +10,7 @@ A simple platformer for Computer Programming in D127
 - [ ] Enemy/Player Health
 - [ ] Adding sounds
 - [ ] Generalize Enemy for multiple Enemy types
+- [ ] Add portal mechanic for player
 
 ### Series of levels
 - [ ] Plan out levels

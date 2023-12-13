@@ -14,7 +14,6 @@ Medium additons
 - Items
 
 """
-print("hello")
 
 pygame.init()
 screen = pygame.display.set_mode( settings.screenSize )

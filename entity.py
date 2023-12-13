@@ -82,8 +82,6 @@ class Entity(pygame.sprite.Sprite):
     
     def update(self, dt, tiles):
         #self.resetCollisions()
-        if self.rect.x > 1280:
-            print(self.velocity.x)
         self.horizontalMovement(dt, tiles)
         self.verticalMovement(dt, tiles)
     

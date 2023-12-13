@@ -20,6 +20,22 @@ class Player(entity.Entity):
             self.jumpCount -= 1
             self.velocity.y = -800
     
+
+    def lightAttack(self):
+        punchHitbox = pygame.Rect(self.rect.topleft, (96,64))
+        
+        if self.facingLeft:
+            punchHitbox.midright = self.rect.center
+        else:
+            punchHitbox.midleft = self.rect.center
+        for e in self.director.enemies:
+            if e.rect.colliderect(punchHitbox):
+                e.damage(1)
+
+    def heavyAttack(self):
+        print("I'm heavy attacking!")
+    
+
     def damage(self, amountOfDamage):
         print("OW I took " + str(amountOfDamage) + " damage!")
     
@@ -59,5 +75,15 @@ class Player(entity.Entity):
         self.updateAnimation(dt)
 
         super().update(dt, tiles)
+    
+    def draw(self, surface):
+        punchHitbox = pygame.Rect(self.rect.topleft + self.director.offset, (96,64))
+        
+        if self.facingLeft:
+            punchHitbox.midright = self.rect.center + self.director.offset
+        else:
+            punchHitbox.midleft = self.rect.center + self.director.offset
+        pygame.draw.rect(surface, "red", punchHitbox, 1)
+        super().draw(surface)
     
     

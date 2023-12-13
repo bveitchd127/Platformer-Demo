@@ -25,6 +25,12 @@ class Director:
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_SPACE:
                     self.player.jump()
+                
+                if e.key == pygame.K_j:
+                    self.player.lightAttack()
+                if e.key == pygame.K_k:
+                    self.player.heavyAttack()
+
                 if e.key == pygame.K_RIGHT:
                     self.player.velocity.x = 1000
                     self.player.velocity.y = -300

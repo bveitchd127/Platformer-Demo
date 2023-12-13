@@ -10,11 +10,16 @@ class Enemy(entity.Entity):
             "jump": animation.Animation("assets/gfx/jump.png",  4, (0,8)),
         }
         self.movementSpeed = random.randint(150,200)
+        self.health = 5
 
         self.attackSpeed = 2
         self.attackCooldown = random.random()*2
         self.projectileSpeed = 500
     
+    def damage(self, amountOfDamage):
+        self.health -= amountOfDamage
+        if self.health <= 0:
+            self.kill()
 
     def updateAnimStatus(self):
         if self.collisions["bottom"]:
