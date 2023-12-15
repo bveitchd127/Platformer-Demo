@@ -4,7 +4,9 @@ class Level:
     def __init__(self, director, fileName):
         self.director = director
         self.tiles = pygame.sprite.Group()
+        self.spawnPoint = (0,0)
         self.loadLevel(fileName)
+        
 
     def loadLevel(self, fileName):
         # Open a text file
@@ -20,6 +22,8 @@ class Level:
                         self.director.player.rect.topleft = (x*settings.tileSize, y*settings.tileSize)
                     if col == "E":
                         self.director.spawnEnemy(x*settings.tileSize, y*settings.tileSize)
+                    if col == "S":
+                        self.spawnPoint = (x*settings.tileSize, y*settings.tileSize)
                         
                     
     def draw(self, surface):

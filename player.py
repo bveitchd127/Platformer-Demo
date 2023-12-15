@@ -12,8 +12,8 @@ class Player(entity.Entity):
         }
         self.movementSpeed = 400
         self.jumpCount = 2
-        # player width is about 14, 29
-        #self.rect = pygame.Rect(x, y, 14, 29)
+        
+        self.health = 10
     
     def jump(self):
         if self.jumpCount > 0:
@@ -42,7 +42,12 @@ class Player(entity.Entity):
     
 
     def damage(self, amountOfDamage):
-        print("OW I took " + str(amountOfDamage) + " damage!")
+        self.health -= amountOfDamage
+        if self.health <= 0:
+            spawnPoint = self.director.getPlayerSpawn()
+            self.rect.center = spawnPoint
+            self.velocity = pygame.math.Vector2()
+            self.health = 10
     
     def getInput(self):
         keys = pygame.key.get_pressed()

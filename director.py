@@ -14,6 +14,9 @@ class Director:
     def spawnEnemy(self, x, y):
         self.enemies.add( enemy.Enemy(self,x,y) )
     
+    def getPlayerSpawn(self):
+        return self.level.spawnPoint
+
     def spawnProjectile(self, position, velocity):
         self.projectiles.add(projectile.Projectile(self, position[0], position[1], velocity))
 
@@ -56,7 +59,7 @@ class Director:
     
     def checkForFallenPlayer(self):
         if self.player.rect.y > 4000:
-            self.player.rect.topleft = (400,100)
+            self.player.rect.topleft = self.getPlayerSpawn()
             self.player.velocity = pygame.math.Vector2()
 
     def update(self, dt):

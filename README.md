@@ -7,7 +7,10 @@ A simple platformer for Computer Programming in D127
 - [x] Camera System
 - [x] Melee Attacks
 - [x] Range Attacks
-- [x] Enemy/Player Health
+- [x] Enemy Health
+- [ ] Player Health
+- [ ] Player Respawn
+- [ ] Menu System
 - [ ] Adding sounds
 - [ ] Generalize Enemy for multiple Enemy types
 - [ ] Add portal mechanic for player
