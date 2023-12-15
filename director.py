@@ -1,4 +1,7 @@
 import pygame, sys, settings, level, player, entity, enemy, random, projectile
+from pygame.math import Vector2 as V2
+
+levels = ["level1.txt","level2.txt"]
 
 class Director:
     def __init__(self):
@@ -8,9 +11,18 @@ class Director:
         self.player = player.Player(self, 100,100)
         self.enemies = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
-        self.level = level.Level(self, "level1.txt")
-        self.offset = (settings.screenWidth//2, settings.screenHeight//2) - pygame.math.Vector2(self.player.rect.center)
+        self.currentLevelNumber = 0
+        self.level = level.Level(self, levels[self.currentLevelNumber % len(levels)])
+        self.offset = (settings.screenWidth//2, settings.screenHeight//2) - V2(self.player.rect.center)
         
+    def checkForLevelCompletion(self):
+        if len(self.enemies) == 0:
+            self.currentLevelNumber += 1
+            settings.tileColor = ( random.randint(0,255), random.randint(0,255), random.randint(0,255) )
+            self.level = level.Level(self, levels[random.randint(0,len(levels)-1)])
+            self.offset = (settings.screenWidth//2, settings.screenHeight//2) - V2(self.player.rect.center)
+
+
     def spawnEnemy(self, x, y):
         self.enemies.add( enemy.Enemy(self,x,y) )
     
@@ -66,6 +78,7 @@ class Director:
         self.checkEvents()
         self.checkForFallenPlayer()
         self.updateOffset(dt)
+        self.checkForLevelCompletion()
         
         self.player.update(dt, self.level.tiles)
         self.enemies.update(dt, self.level.tiles)

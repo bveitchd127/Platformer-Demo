@@ -43,11 +43,13 @@ class Player(entity.Entity):
 
     def damage(self, amountOfDamage):
         self.health -= amountOfDamage
+        self.healthRect.width = 48 * (self.health/10)
         if self.health <= 0:
             spawnPoint = self.director.getPlayerSpawn()
             self.rect.center = spawnPoint
             self.velocity = pygame.math.Vector2()
             self.health = 10
+            self.healthRect.width = 48
     
     def getInput(self):
         keys = pygame.key.get_pressed()
@@ -94,6 +96,10 @@ class Player(entity.Entity):
         else:
             punchHitbox.midleft = self.rect.center + self.director.offset
         pygame.draw.rect(surface, "red", punchHitbox, 1)
+        self.healthBarRect.midbottom = self.rect.midtop + self.director.offset
+        pygame.draw.rect(surface, "black", self.healthBarRect, 0, 2)
+        self.healthRect.topleft = self.healthBarRect.topleft
+        pygame.draw.rect(surface, "green", self.healthRect   , 0, 2)
         super().draw(surface)
     
     
