@@ -8,8 +8,8 @@ A simple platformer for Computer Programming in D127
 - [x] Melee Attacks
 - [x] Range Attacks
 - [x] Enemy Health
-- [ ] Player Health
-- [ ] Player Respawn
+- [x] Player Health
+- [x] Player Respawn
 - [ ] Menu System
 - [ ] Adding sounds
 - [ ] Generalize Enemy for multiple Enemy types
