@@ -12,11 +12,13 @@ class Player(entity.Entity):
         }
         self.movementSpeed = 400
         self.jumpCount = 2
+        self.jumpSound = pygame.mixer.Sound("assets/sfx/jump.wav")
         
         self.health = 10
     
     def jump(self):
         if self.jumpCount > 0:
+            self.jumpSound.play()
             self.jumpCount -= 1
             self.velocity.y = -800
     
@@ -89,17 +91,17 @@ class Player(entity.Entity):
         super().update(dt, tiles)
     
     def draw(self, surface):
-        punchHitbox = pygame.Rect(self.rect.topleft + self.director.offset, (96,64))
+        # punchHitbox = pygame.Rect(self.rect.topleft + self.director.offset, (96,64))
         
-        if self.facingLeft:
-            punchHitbox.midright = self.rect.center + self.director.offset
-        else:
-            punchHitbox.midleft = self.rect.center + self.director.offset
-        pygame.draw.rect(surface, "red", punchHitbox, 1)
-        self.healthBarRect.midbottom = self.rect.midtop + self.director.offset
-        pygame.draw.rect(surface, "black", self.healthBarRect, 0, 2)
-        self.healthRect.topleft = self.healthBarRect.topleft
-        pygame.draw.rect(surface, "green", self.healthRect   , 0, 2)
+        # if self.facingLeft:
+        #     punchHitbox.midright = self.rect.center + self.director.offset
+        # else:
+        #     punchHitbox.midleft = self.rect.center + self.director.offset
+        # pygame.draw.rect(surface, "red", punchHitbox, 1)
+        # self.healthBarRect.midbottom = self.rect.midtop + self.director.offset
+        # pygame.draw.rect(surface, "black", self.healthBarRect, 0, 2)
+        # self.healthRect.topleft = self.healthBarRect.topleft
+        # pygame.draw.rect(surface, "green", self.healthRect   , 0, 2)
         super().draw(surface)
     
     

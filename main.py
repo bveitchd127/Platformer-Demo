@@ -16,6 +16,7 @@ Medium additons
 """
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode( settings.screenSize )
 clock = pygame.time.Clock()
 
