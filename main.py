@@ -1,20 +1,5 @@
 import pygame, director, settings
 
-"""
-Easy additions
-- Enemy health bars
-- Player attacks
-- Enemy attacks (player health bar)
-- Projectile class
-- More animations
-- Wave based spawner
-
-Medium additons
-- Roguelike mechanics
-- Items
-
-"""
-
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode( settings.screenSize )
