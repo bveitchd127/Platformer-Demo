@@ -16,8 +16,9 @@ class Level:
                 # Loops through each character in a row
                 for x,col in enumerate( line ):
                     # If the character is an X, then place a tile at that position
-                    if col == "X":
-                        self.tiles.add( tile.Tile(x*settings.tileSize, y*settings.tileSize) )
+                    if col in tile.tileDict.keys():
+                        self.tiles.add( tile.Tile(x*settings.tileSize, y*settings.tileSize, col) )
+                    
                     if col == "P":
                         self.director.player.rect.topleft = (x*settings.tileSize, y*settings.tileSize)
                     if col == "E":
