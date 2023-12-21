@@ -42,6 +42,12 @@ class Player(entity.Entity):
     def heavyAttack(self):
         print("I'm heavy attacking!")
     
+    def checkForStar(self):
+        for star in self.director.stars:
+            if star.rect.colliderect(self.rect):
+                self.health = 10
+                self.healthRect.width = 48
+                star.kill()
 
     def damage(self, amountOfDamage):
         self.health -= amountOfDamage
@@ -87,6 +93,7 @@ class Player(entity.Entity):
             self.jumpCount = 2
         
         self.updateAnimation(dt)
+        self.checkForStar()
 
         super().update(dt, tiles)
     
@@ -98,10 +105,10 @@ class Player(entity.Entity):
         # else:
         #     punchHitbox.midleft = self.rect.center + self.director.offset
         # pygame.draw.rect(surface, "red", punchHitbox, 1)
-        # self.healthBarRect.midbottom = self.rect.midtop + self.director.offset
-        # pygame.draw.rect(surface, "black", self.healthBarRect, 0, 2)
-        # self.healthRect.topleft = self.healthBarRect.topleft
-        # pygame.draw.rect(surface, "green", self.healthRect   , 0, 2)
+        self.healthBarRect.midbottom = self.rect.midtop + self.director.offset
+        pygame.draw.rect(surface, "black", self.healthBarRect, 0, 2)
+        self.healthRect.topleft = self.healthBarRect.topleft
+        pygame.draw.rect(surface, "green", self.healthRect   , 0, 2)
         super().draw(surface)
     
     

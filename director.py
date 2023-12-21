@@ -1,4 +1,4 @@
-import pygame, sys, settings, level, player, entity, enemy, random, projectile
+import pygame, sys, settings, level, player, entity, enemy, random, projectile, star
 from pygame.math import Vector2 as V2
 
 levels = ["level1.txt","level2.txt"]
@@ -11,6 +11,7 @@ class Director:
         self.player = player.Player(self, 100,100)
         self.enemies = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
+        self.stars = pygame.sprite.Group()
         self.currentLevelNumber = 0
         self.level = level.Level(self, levels[self.currentLevelNumber % len(levels)])
         self.offset = (settings.screenWidth//2, settings.screenHeight//2) - V2(self.player.rect.center)
@@ -22,6 +23,8 @@ class Director:
             self.level = level.Level(self, levels[random.randint(0,len(levels)-1)])
             self.offset = (settings.screenWidth//2, settings.screenHeight//2) - V2(self.player.rect.center)
 
+    def spawnStar(self, x, y):
+        self.stars.add( star.Star(self, x, y) )
 
     def spawnEnemy(self, x, y):
         self.enemies.add( enemy.Enemy(self,x,y) )
@@ -59,10 +62,12 @@ class Director:
                 
                 if e.key == pygame.K_1:
                     self.enemies.empty()
+                    self.stars.empty()
                     self.level = level.Level(self, "level1.txt")
                     
                 if e.key == pygame.K_2:
                     self.enemies.empty()
+                    self.stars.empty()
                     self.level = level.Level(self, "level2.txt")
 
     def updateOffset(self, dt):
@@ -83,6 +88,7 @@ class Director:
         self.player.update(dt, self.level.tiles)
         self.enemies.update(dt, self.level.tiles)
         self.projectiles.update(dt, self.level.tiles)
+        self.stars.update(dt, self.level.tiles)
     
     def draw(self, surface):
         self.level.draw(surface)
@@ -92,3 +98,5 @@ class Director:
             e.draw(surface)
         for p in self.projectiles:
             p.draw(surface)
+        for s in self.stars:
+            s.draw(surface)

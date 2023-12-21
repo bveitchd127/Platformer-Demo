@@ -19,6 +19,10 @@ class Level:
                     if col in tile.tileDict.keys():
                         self.tiles.add( tile.Tile(x*settings.tileSize, y*settings.tileSize, col) )
                     
+                    if col == "K":
+                        # Spawns a star
+                        self.director.spawnStar(x*settings.tileSize, y*settings.tileSize)
+                    
                     if col == "P":
                         self.director.player.rect.topleft = (x*settings.tileSize, y*settings.tileSize)
                     if col == "E":
